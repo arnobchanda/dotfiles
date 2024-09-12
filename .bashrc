@@ -123,6 +123,7 @@ fi
 # export PATH="$PATH:/home/overlord/.local/bin"
 # eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 export PATH="$PATH:/home/linuxbrew/.linuxbrew/bin:/home/linuxbrew/.linuxbrew/sbin"
+source /home/linuxbrew/.linuxbrew/etc/bash_completion.d/*
 eval "$(oh-my-posh init bash --config "$(brew --prefix oh-my-posh)"/themes/amro.omp.json)"
 eval "$(thefuck --alias fuck)"
 eval "$(zoxide init bash)"
