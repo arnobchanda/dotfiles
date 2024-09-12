@@ -123,6 +123,7 @@ fi
 # export PATH="$PATH:/home/overlord/.local/bin"
 # eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 export PATH="$PATH:/home/linuxbrew/.linuxbrew/bin:/home/linuxbrew/.linuxbrew/sbin"
+# shellcheck disable=SC1090
 source /home/linuxbrew/.linuxbrew/etc/bash_completion.d/*
 eval "$(oh-my-posh init bash --config ~/.bin/kali_mod.omp.json)"
 eval "$(thefuck --alias fuck)"
@@ -134,3 +135,8 @@ source ~/.bin/lscolors.sh
 source ~/.bin/fzf_setup.sh
 # shellcheck disable=SC1090
 source ~/.bin/custom_functions.sh
+
+# Automatically start or attach to a tmux session
+if command -v tmux &> /dev/null && [ -z "$TMUX" ]; then
+    tmux attach-session -t main_session || tmux new-session -s main_session
+fi
