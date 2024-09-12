@@ -20,6 +20,3 @@
 
 [diff]
     colorMoved = default
-[maintenance]
-	repo = /home/overlord/storview-ui-frontend
-	repo = /home/overlord/aesi_ems
