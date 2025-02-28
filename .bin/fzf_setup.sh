@@ -6,7 +6,7 @@
 
 eval "$(fzf --bash)"
 
-export FZF_DEFAULT_OPTS="--height=50% --tmux 90%,70%
+export FZF_DEFAULT_OPTS="--height=50% --tmux 90%,70%"
 
 # -- Use fd instead of fzf --
 
