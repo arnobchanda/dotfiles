@@ -1,12 +1,15 @@
 # shellcheck disable=SC2148
+# shellcheck disable=SC1090
+# shellcheck disable=SC1091
+
 # ~/.bashrc: executed by bash(1) for non-login shells.
 # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
 # for examples
 
 # If not running interactively, don't do anything
 case $- in
-    *i*) ;;
-      *) return;;
+*i*) ;;
+*) return ;;
 esac
 
 # don't put duplicate lines or lines starting with space in the history.
@@ -38,7 +41,7 @@ fi
 
 # set a fancy prompt (non-color, unless we know we "want" color)
 case "$TERM" in
-    xterm-color|*-256color) color_prompt=yes;;
+xterm-color | *-256color) color_prompt=yes ;;
 esac
 
 # uncomment for a colored prompt, if the terminal has the capability; turned
@@ -48,12 +51,12 @@ esac
 
 if [ -n "$force_color_prompt" ]; then
     if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
-	# We have color support; assume it's compliant with Ecma-48
-	# (ISO/IEC-6429). (Lack of such support is extremely rare, and such
-	# a case would tend to support setf rather than setaf.)
-	color_prompt=yes
+        # We have color support; assume it's compliant with Ecma-48
+        # (ISO/IEC-6429). (Lack of such support is extremely rare, and such
+        # a case would tend to support setf rather than setaf.)
+        color_prompt=yes
     else
-	color_prompt=
+        color_prompt=
     fi
 fi
 
@@ -66,15 +69,15 @@ unset color_prompt force_color_prompt
 
 # If this is an xterm set the title to user@host:dir
 case "$TERM" in
-xterm*|rxvt*)
+xterm* | rxvt*)
     PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PS1"
     ;;
-*)
-    ;;
+*) ;;
 esac
 
 # enable color support of ls and also add handy aliases
 if [ -x /usr/bin/dircolors ]; then
+    # shellcheck disable=SC2015
     test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
     alias ls='ls --color=auto'
     #alias dir='dir --color=auto'
@@ -103,7 +106,7 @@ alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo
 # See /usr/share/doc/bash-doc/examples in the bash-doc package.
 
 if [ -f ~/.bash_aliases ]; then
-    # shellcheck disable=SC1090
+
     . ~/.bash_aliases
 fi
 
@@ -112,31 +115,29 @@ fi
 # sources /etc/bash.bashrc).
 if ! shopt -oq posix; then
     if [ -f /usr/share/bash-completion/bash_completion ]; then
-        # shellcheck disable=SC1091
+
         . /usr/share/bash-completion/bash_completion
     elif [ -f /etc/bash_completion ]; then
-        # shellcheck disable=SC1091
         . /etc/bash_completion
     fi
 fi
 
-# export PATH="$PATH:/home/overlord/.local/bin"
-# eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
-export PATH="$PATH:/home/linuxbrew/.linuxbrew/bin:/home/linuxbrew/.linuxbrew/sbin"
-# shellcheck disable=SC1090
-source /home/linuxbrew/.linuxbrew/etc/bash_completion.d/*
-eval "$(oh-my-posh init bash --config ~/.bin/kali_mod.omp.json)"
+# Path extension
+export PATH=$PATH:/usr/local/go/bin:~/go/bin:~/.local/bin:/home/linuxbrew/.linuxbrew/bin
+
+# Cargo env
+. "$HOME/.cargo/env"
+
+# NVM
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"                   # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion" # This loads nvm bash_completion
+
+# Additional init
+eval "$(oh-my-posh init bash --config ~/.cache/oh-my-posh/themes/kali_mod.omp.json)"
 eval "$(thefuck --alias fuck)"
 eval "$(zoxide init bash)"
 
-# shellcheck disable=SC1090
-source ~/.bin/lscolors.sh
-# shellcheck disable=SC1090
-source ~/.bin/fzf_setup.sh
-# shellcheck disable=SC1090
+# FZF setup
+source ~/.config/fzf-setup.sh
 source ~/.bin/custom_functions.sh
-
-# Automatically start or attach to a tmux session
-if command -v tmux &> /dev/null && [ -z "$TMUX" ]; then
-    tmux attach-session -t main_session || tmux new-session -s main_session
-fi

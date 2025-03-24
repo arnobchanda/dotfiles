@@ -27,7 +27,7 @@ _fzf_compgen_dir() {
 }
 
 # shellcheck disable=SC1090
-source ~/.bin/fzf-git.sh/fzf-git.sh
+source ~/.config/fzf-git.sh
 
 export FZF_CTRL_T_OPTS="--preview 'if [ -d {} ]; then eza --tree --color=always {} | head -200; else bat -n --color=always --line-range :500 {};fi'"
 export FZF_ALT_C_OPTS="--preview 'eza --tree --color=always {} | head -200'"
@@ -40,9 +40,9 @@ _fzf_comprun() {
   shift
 
   case "$command" in
-    cd)           fzf --preview 'eza --tree --color=always {} | head -200'  "$@" ;;
-    export|unset) fzf --preview "eval 'echo \${}'"                          "$@" ;;
-    ssh)          fzf --preview 'dig {}'                                    "$@" ;;
-    *)            fzf --preview 'if [ -d {} ]; then eza --tree --color=always {} | head -200; else bat -n --color=always --line-range :500 {};fi'              "$@" ;;
+  cd) fzf --preview 'eza --tree --color=always {} | head -200' "$@" ;;
+  export | unset) fzf --preview "eval 'echo \${}'" "$@" ;;
+  ssh) fzf --preview 'dig {}' "$@" ;;
+  *) fzf --preview 'if [ -d {} ]; then eza --tree --color=always {} | head -200; else bat -n --color=always --line-range :500 {};fi' "$@" ;;
   esac
 }
